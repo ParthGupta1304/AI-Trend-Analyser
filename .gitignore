@@ -1,0 +1,70 @@
+# -----------------------------
+# Global OS / Editor ignores
+# -----------------------------
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+
+# -----------------------------
+# Environment & secrets
+# -----------------------------
+.env
+.env.local
+.env.*.local
+
+# -----------------------------
+# Node / Next.js (frontend)
+# -----------------------------
+frontend/node_modules/
+frontend/.next/
+frontend/dist/
+frontend/out/
+frontend/package-lock.json
+
+# Production build artifacts
+frontend/.vercel/
+
+# -----------------------------
+# Python (worker)
+# -----------------------------
+worker/.venv/
+worker/venv/
+worker/__pycache__/
+worker/.pytest_cache/
+worker/.mypy_cache/
+worker/app/__pycache__/
+
+# Model files (if using HuggingFace)
+worker/models/
+*.pt
+*.bin
+
+# -----------------------------
+# Rust (backend)
+# -----------------------------
+backend/target/
+backend/**/Cargo.lock
+
+# -----------------------------
+# Docker
+# -----------------------------
+pgdata/
+redisdata/
+*.pid
+*.sock
+
+# No docker-compose override file
+docker-compose.override.yml
+
+# -----------------------------
+# Logs
+# -----------------------------
+logs/
+*.log
+
+# -----------------------------
+# Misc
+# -----------------------------
+*.sqlite
