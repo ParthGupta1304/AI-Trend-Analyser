@@ -1,70 +1,91 @@
-# -----------------------------
+############################################
 # Global OS / Editor ignores
-# -----------------------------
+############################################
 .DS_Store
 Thumbs.db
 .idea/
 .vscode/
 *.log
+*.swp
+*.tmp
+*.DS_Store
 
-# -----------------------------
-# Environment & secrets
-# -----------------------------
+############################################
+# Root-level environment files
+############################################
 .env
 .env.local
 .env.*.local
 
-# -----------------------------
-# Node / Next.js (frontend)
-# -----------------------------
+############################################
+# Logs
+############################################
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+############################################
+# Dependencies
+############################################
+
+# Node.js (Backend + Frontend)
+node_modules/
+**/node_modules/
 frontend/node_modules/
-frontend/.next/
-frontend/dist/
-frontend/out/
-frontend/package-lock.json
+backend/node_modules/
 
-# Production build artifacts
-frontend/.vercel/
-
-# -----------------------------
-# Python (worker)
-# -----------------------------
+# Python virtual environment (Worker)
 worker/.venv/
 worker/venv/
 worker/__pycache__/
 worker/.pytest_cache/
-worker/.mypy_cache/
 worker/app/__pycache__/
 
-# Model files (if using HuggingFace)
+############################################
+# Build output
+############################################
+
+# Next.js frontend build output
+frontend/.next/
+frontend/out/
+frontend/dist/
+
+# Backend (Node)
+backend/dist/
+
+# TypeScript build cache
+**/*.tsbuildinfo
+backend/*.tsbuildinfo
+
+############################################
+# Python builds / caches
+############################################
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
 worker/models/
-*.pt
-*.bin
 
-# -----------------------------
-# Rust (backend)
-# -----------------------------
-backend/target/
-backend/**/Cargo.lock
-
-# -----------------------------
+############################################
 # Docker
-# -----------------------------
+############################################
 pgdata/
 redisdata/
-*.pid
-*.sock
-
-# No docker-compose override file
 docker-compose.override.yml
 
-# -----------------------------
-# Logs
-# -----------------------------
-logs/
-*.log
-
-# -----------------------------
-# Misc
-# -----------------------------
+############################################
+# Postgres Local Files
+############################################
+*.sql-journal
 *.sqlite
+
+############################################
+# Misc
+############################################
+*.pid
+*.sock
+*.seed
+*.bak
