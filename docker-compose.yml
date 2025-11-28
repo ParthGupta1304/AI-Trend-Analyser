@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: ai_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ai_market
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+    container_name: ai_backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    volumes:
+      - ./backend:/usr/src/app
+    command: ["./start-backend.sh"]
+
+  worker:
+    build:
+      context: ./worker
+    container_name: ai_worker
+    ports:
+      - "8000:8000"
+    depends_on:
+      - backend
+    volumes:
+      - ./worker:/app
+    command: ["./start-worker.sh"]
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: ai_frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    command: ["npm", "run", "dev"]
+
+volumes:
+  pgdata:
