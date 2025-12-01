@@ -12,40 +12,49 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
-
-  backend:
-    build:
-      context: ./backend
-    container_name: ai_backend
-    ports:
-      - "8080:8080"
-    depends_on:
-      - postgres
-    volumes:
-      - ./backend:/usr/src/app
-    command: ["./start-backend.sh"]
-
-  worker:
-    build:
-      context: ./worker
-    container_name: ai_worker
-    ports:
-      - "8000:8000"
-    depends_on:
-      - backend
-    volumes:
-      - ./worker:/app
-    command: ["./start-worker.sh"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   frontend:
     build:
       context: ./frontend
+      dockerfile: Dockerfile
     container_name: ai_frontend
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/ai_market
+      NODE_ENV: development
     ports:
       - "3000:3000"
     volumes:
       - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      postgres:
+        condition: service_healthy
     command: ["npm", "run", "dev"]
+
+  worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    container_name: ai_worker
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379}
+      WORKER_MODEL: ${WORKER_MODEL:-local}
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/ai_market
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./worker:/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: ["./start-worker.sh"]
 
 volumes:
   pgdata:
