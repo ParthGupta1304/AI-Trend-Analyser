@@ -45,7 +45,7 @@ export default function Navbar() {
             hello@sentimax.ai
           </span>
           <Link
-            href="/pricing"
+            href="/register"
             className="rounded-full border border-zinc-900 px-5 py-2 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-900 hover:text-white"
           >
             Get Started
