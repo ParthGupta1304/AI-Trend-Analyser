@@ -1,55 +1,49 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { playfair } from "../fonts";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
+export default function RegisterPage() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    if (searchParams.get("registered") === "true") {
-      setSuccess("Registration successful! Please login.");
-    }
-  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setSuccess("");
     setLoading(true);
 
     try {
-      const response = await fetch("/api/users/login", {
+      const response = await fetch("/api/users/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          name,
           email,
           password,
+          confirmPassword,
         }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        setError(data.error || "Login failed");
+        setError(data.error || "Registration failed");
         setLoading(false);
         return;
       }
 
-      // Login successful - redirect to AI model page
-      router.push("/ai_model");
+      // Registration successful - redirect to login
+      router.push("/login?registered=true");
     } catch (err) {
       setError("An unexpected error occurred. Please try again.");
       setLoading(false);
@@ -78,22 +72,17 @@ export default function LoginPage() {
             transition={{ duration: 0.5 }}
           >
             <h1 className={`${playfair.className} text-4xl text-zinc-900`}>
-              Holla,
+              Create
               <br />
-              Welcome Back
+              Your Account
             </h1>
             <p className="mt-3 text-zinc-500">
-              Hey, welcome back to your special place
+              Join us and start analyzing trends today
             </p>
           </motion.div>
 
           {/* Form */}
           <form className="mt-10 space-y-5" onSubmit={handleSubmit}>
-            {success && (
-              <div className="rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-600">
-                {success}
-              </div>
-            )}
             {error && (
               <div className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
                 {error}
@@ -102,8 +91,18 @@ export default function LoginPage() {
 
             <div>
               <input
+                type="text"
+                placeholder="Full Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full rounded-xl border border-zinc-200 bg-white px-5 py-3.5 text-sm text-zinc-900 placeholder-zinc-400 transition focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              />
+            </div>
+
+            <div>
+              <input
                 type="email"
-                placeholder="stanley@gmail.com"
+                placeholder="Email Address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full rounded-xl border border-zinc-200 bg-white px-5 py-3.5 text-sm text-zinc-900 placeholder-zinc-400 transition focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
@@ -113,9 +112,19 @@ export default function LoginPage() {
             <div>
               <input
                 type="password"
-                placeholder="••••••••••••"
+                placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                className="w-full rounded-xl border border-zinc-200 bg-white px-5 py-3.5 text-sm text-zinc-900 placeholder-zinc-400 transition focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
+              />
+            </div>
+
+            <div>
+              <input
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full rounded-xl border border-zinc-200 bg-white px-5 py-3.5 text-sm text-zinc-900 placeholder-zinc-400 transition focus:border-emerald-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
               />
             </div>
@@ -125,18 +134,18 @@ export default function LoginPage() {
               disabled={loading}
               className="w-full rounded-xl bg-emerald-600 py-3.5 text-sm font-semibold text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {loading ? "Signing In..." : "Sign In"}
+              {loading ? "Creating Account..." : "Create Account"}
             </button>
           </form>
 
-          {/* Sign Up Link */}
+          {/* Sign In Link */}
           <p className="mt-8 text-center text-sm text-zinc-500">
-            Don't have an account?{" "}
+            Already have an account?{" "}
             <Link
-              href="/register"
+              href="/login"
               className="font-semibold text-emerald-600 hover:text-emerald-700"
             >
-              Sign Up
+              Sign In
             </Link>
           </p>
         </div>
@@ -159,9 +168,9 @@ export default function LoginPage() {
             className="relative"
           >
             {/* Phone Mockup */}
-            <div className="relative z-10 h-[500px] w-[280px] rounded-[48px] border-8 border-zinc-900 bg-gradient-to-br from-violet-600 to-pink-500 p-6 shadow-2xl">
+            <div className="relative z-10 h-[500px] w-[280px] rounded-[48px] border-8 border-zinc-900 bg-gradient-to-br from-emerald-600 to-teal-500 p-6 shadow-2xl">
               <div className="flex h-full flex-col items-center justify-center text-white">
-                {/* Fingerprint Icon */}
+                {/* User Plus Icon */}
                 <div className="flex h-40 w-40 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
                   <svg
                     viewBox="0 0 24 24"
@@ -171,7 +180,7 @@ export default function LoginPage() {
                     className="h-24 w-24"
                   >
                     <path
-                      d="M12 11a4 4 0 0 1 4 4v1M8 15v-1a4 4 0 0 1 8 0M12 15v5M8 15v3M16 15v3M7 19h10"
+                      d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM20 8v6M23 11h-6"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
@@ -194,7 +203,12 @@ export default function LoginPage() {
                 className="h-10 w-10 text-emerald-600"
               >
                 <path
-                  d="M5 13l4 4L19 7"
+                  d="M22 11.08V12a10 10 0 1 1-5.93-9.14"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M22 4L12 14.01l-3-3"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
@@ -215,11 +229,12 @@ export default function LoginPage() {
                 fill="none"
                 stroke="currentColor"
                 strokeWidth="2"
-                className="h-12 w-12 text-violet-600"
+                className="h-12 w-12 text-teal-600"
               >
                 <path
-                  d="M12 2a5 5 0 0 1 5 5v0a5 5 0 0 1-5 5v0a5 5 0 0 1-5-5v0a5 5 0 0 1 5-5zM3 22a9 9 0 0 1 18 0"
+                  d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"
                   strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </motion.div>

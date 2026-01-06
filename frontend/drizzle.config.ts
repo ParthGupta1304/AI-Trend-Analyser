@@ -7,7 +7,7 @@ dotenv.config({ path: path.resolve(__dirname, ".env.local") });
 
 export default defineConfig({
   schema: "./db/schema.ts",
-  out: "./drizzle",
+  out: "./db",
   dialect: "postgresql",
   dbCredentials: {
     url:
@@ -15,4 +15,3 @@ export default defineConfig({
       "postgres://postgres:postgres@localhost:5432/ai_market",
   },
 });
-

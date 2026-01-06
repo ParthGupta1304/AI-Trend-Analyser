@@ -17,8 +17,7 @@
     "docker:logs": "docker-compose logs -f"
   },
   "dependencies": {
-    "@types/pg": "^8.15.6",
-    "drizzle-kit": "^0.31.7",
+    "bcryptjs": "^2.4.3",
     "drizzle-orm": "^0.44.7",
     "framer-motion": "^12.23.26",
     "motion": "^12.23.26",
@@ -29,9 +28,12 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/bcryptjs": "^2.4.2",
     "@types/node": "^20",
+    "@types/pg": "^8.16.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.8",
     "eslint": "^9",
     "eslint-config-next": "16.0.4",
     "tailwindcss": "^4",
