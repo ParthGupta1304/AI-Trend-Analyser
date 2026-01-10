@@ -9,7 +9,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
@@ -78,7 +77,7 @@ export default function LoginPage() {
             transition={{ duration: 0.5 }}
           >
             <h1 className={`${playfair.className} text-4xl text-zinc-900`}>
-              Holla,
+              Hello,
               <br />
               Welcome Back
             </h1>
