@@ -19,6 +19,7 @@
   "dependencies": {
     "ai": "^6.0.27",
     "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.5",
     "drizzle-orm": "^0.44.7",
     "framer-motion": "^12.23.26",
     "motion": "^12.23.26",
