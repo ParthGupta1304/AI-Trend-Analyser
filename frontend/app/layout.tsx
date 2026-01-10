@@ -15,9 +15,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "SentiMax - AI Trend Analyser",
-  description: "AI-powered sentiment analysis and trend prediction platform. Analyze market trends, social media sentiment, and get data-driven insights.",
+  description:
+    "AI-powered sentiment analysis and trend prediction platform. Analyze market trends, social media sentiment, and get data-driven insights.",
   icons: {
-    icon: '/favicon.ico',
+    icon: "/favicon.ico",
   },
 };
 
